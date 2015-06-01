@@ -8,14 +8,14 @@
  * @version 5/27/15
  */
 
-namespace Minery\Dig;
+namespace Minery\Dig\Report;
 
 
 use Minery\Dig\Contracts\iReport;
 use Minery\Dig\Contracts\ResultSetContract;
 use Minery\Sift\Filters\FilterCollection\FilterCollection;
 
-abstract class ReportBase implements iReport{
+abstract class ReportBase implements iReport,Arrayable{
 
     protected $resultSet;
 
