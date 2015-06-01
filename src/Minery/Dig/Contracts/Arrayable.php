@@ -21,8 +21,9 @@ interface Arrayable {
     public function toArray();
 
     /**
-     * Converts a class from an array into a class.
+     * Converts an array into an object
+     * @param $array
      * @return mixed
      */
-    public function fromArray();
+    public function fromArray($array);
 } 

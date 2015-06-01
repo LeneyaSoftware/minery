@@ -13,7 +13,10 @@
 namespace Minery\Sift\Filters;
 
 
-abstract class Filter {
+use Minery\Dig\Contracts\Arrayable;
+use Minery\Exception\ReportNotPersistableException;
+
+abstract class Filter implements Arrayable{
 
     protected $field;
     protected $value;
@@ -27,5 +30,20 @@ abstract class Filter {
 
     public function setField($field){
         $this->field = $field;
+    }
+
+    public function toArray(){
+        return [
+            'class'=>get_class($this),
+            'field'=>$this->field,
+            'value'=>$this->value
+        ];
+    }
+
+    public function fromArray($array){
+        if(!array_key_exists('field',$array) || !array_key_exists('value',$array) )
+            throw new ReportNotPersistableException('The file you are attempting to load is not formatted correctly');
+        $this->field = $array['field'];
+        $this->value = $array['value'];
     }
 } 

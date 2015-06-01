@@ -13,9 +13,11 @@
 namespace Minery\Sift\Filters\FilterCollection;
 
 
+use Minery\Dig\Contracts\Arrayable;
+use Minery\Exception\MalformedPersistenceFileException;
 use Minery\Sift\Contracts\iFilter;
 
-class FilterCollection {
+class FilterCollection implements Arrayable{
 
     protected $filters;
     protected $filterString;
@@ -99,5 +101,28 @@ class FilterCollection {
         $allowedConditions = ['AND','OR'];
 
         return in_array($condition,$allowedConditions);
+    }
+
+    public function fromArray($array){
+        if(!array_key_exists('filters',$array))
+            throw new MalformedPersistenceFileException('This persistence file to load in this filter collection does not have a filters key');
+
+        foreach($array['filters'] as $filter){
+
+        }
+    }
+
+    public function toArray(){
+        $filters = $this->filters;
+
+        foreach($filters as $name => $filter){
+            $persisted[$name] = $filter->toArray();
+        }
+
+        return [
+            'class'=>get_class($this),
+            'filters'=>$persisted,
+            'filterString'=> $this->filterString
+        ];
     }
 } 

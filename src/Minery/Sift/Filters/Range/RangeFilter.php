@@ -13,9 +13,12 @@
 namespace Minery\Sift\Filters\Range;
 
 
+use Minery\Dig\Contracts\Arrayable;
+use Minery\Exception\MalformedPersistenceFileException;
+use Minery\Exception\ReportNotPersistableException;
 use Minery\Sift\Contracts\iFilter;
 
-class RangeFilter implements iFilter{
+class RangeFilter implements iFilter,Arrayable{
 
     public function __construct($field,$lower,$upper){
         $this->field = $field;
@@ -52,5 +55,24 @@ class RangeFilter implements iFilter{
 
     public function setLower($lower){
         $this->lower = $lower;
+    }
+
+    public function toArray(){
+        return [
+            'class' => get_class($this),
+            'field' => $this->field,
+            'lower' => $this->lower,
+            'upper' => $this->upper
+        ];
+    }
+
+    public function fromArray($array){
+        if(!array_key_exists('field',$array) || !array_key_exists('lower',$array) || !array_key_exists('upper',$array))
+            throw new MalformedPersistenceFileException('The file you are trying to load does not fit into the
+                acceptable file formats to load this report');
+
+        $this->field = $array['field'];
+        $this->lower = $array['lower'];
+        $this->upper = $array['upper'];
     }
 } 

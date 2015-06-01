@@ -25,17 +25,17 @@ class JSONLoader {
         //retrieve an array from a json file stored in the system.
         $array = json_decode($this->files->retrieve($this->path));
 
-        $reportType = $array['reportType'];
+        $class = $array['class'];
 
         try{
-            $report = new $reportType;
+            $report = new $class;
             if(method_exists($report,'fromArray'))
                 $report->fromArray($array);
             else
-                throw new ReportNotPersistableException('This report type is not able to be persisted.');
+                throw new ReportNotPersistableException('This report type is not able to be persisted or loaded from a file.');
             return $report;
         }catch(\Exception $e){
-            throw new ReportNotFoundException("The class for the report type passed in ($reportType) could not be found.");
+            throw new ReportNotFoundException("The class to load from persistence ($class) could not be found.");
         }
     }
 } 

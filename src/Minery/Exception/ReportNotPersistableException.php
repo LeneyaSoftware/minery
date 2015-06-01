@@ -13,6 +13,6 @@
 namespace Minery\Exception;
 
 
-class ReportNotPersistableException {
+class ReportNotPersistableException extends \Exception{
 
 } 

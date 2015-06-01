@@ -1,6 +1,6 @@
 <?php
 /**
- * Class ReportNotFoundException
+ * Class MalformedPersistenceFileException
  *
  * Enter Class Description Here
  *
@@ -13,6 +13,6 @@
 namespace Minery\Exception;
 
 
-class ReportNotFoundException extends \Exception {
+class MalformedPersistenceFileException extends \Exception{
 
 } 
