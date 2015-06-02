@@ -68,6 +68,7 @@ class ReportResult implements iResultSet{
     public function toArray()
     {
         $array = [
+            'class' => get_class($this),
             'headers'=>$this->headers,
             'data'=>$this->data
         ];

@@ -1,5 +1,7 @@
 <?php
 namespace Minery\Persistence\Loader;
+use Minery\Exception\ReportNotFoundException;
+use Minery\Exception\ReportNotPersistableException;
 use Minery\FileSystem\iFiles;
 
 /**
@@ -23,19 +25,19 @@ class JSONLoader {
 
     public function load(){
         //retrieve an array from a json file stored in the system.
-        $array = json_decode($this->files->retrieve($this->path));
-
-        $class = $array['class'];
-
+        $json = $this->files->retrieve($this->path);
+        $array = json_decode($json,true);
         try{
-            $report = new $class;
-            if(method_exists($report,'fromArray'))
-                $report->fromArray($array);
+            $loader = new ClassLoader();
+            $object = $loader->load($array);
+            if(method_exists($object,'fromArray'))
+                $object->fromArray($array);
             else
-                throw new ReportNotPersistableException('This report type is not able to be persisted or loaded from a file.');
-            return $report;
+                throw new ReportNotPersistableException("This report type ({$array['class']}) is not able to be persisted or loaded from a file.");
+
+            return $object;
         }catch(\Exception $e){
-            throw new ReportNotFoundException("The class to load from persistence ($class) could not be found.");
+            die($e->getMessage()."\r\n");
         }
     }
 } 

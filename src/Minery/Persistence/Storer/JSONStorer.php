@@ -33,6 +33,6 @@ class JSONStorer implements iStore{
 
     public function store(){
         $report = json_encode($this->report->toArray());
-        $this->files->store($this->path,$report);
+        return $this->files->store($this->path,$report);
     }
 } 

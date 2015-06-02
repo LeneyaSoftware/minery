@@ -15,6 +15,7 @@ namespace Minery\Sift\Filters\FilterCollection;
 
 use Minery\Dig\Contracts\Arrayable;
 use Minery\Exception\MalformedPersistenceFileException;
+use Minery\Persistence\Loader\ClassLoader;
 use Minery\Sift\Contracts\iFilter;
 
 class FilterCollection implements Arrayable{
@@ -52,6 +53,10 @@ class FilterCollection implements Arrayable{
      */
     public function removeFilter($name){
         unset($this->filters[$name]);
+    }
+
+    public function clear(){
+        $this->filters = [];
     }
 
     /**
@@ -107,16 +112,28 @@ class FilterCollection implements Arrayable{
         if(!array_key_exists('filters',$array))
             throw new MalformedPersistenceFileException('This persistence file to load in this filter collection does not have a filters key');
 
-        foreach($array['filters'] as $filter){
+        foreach($array['filters'] as $name => $filterParams){
+            $classLoader = new ClassLoader();
+            $object = $classLoader->load($filterParams['filter']);
 
+            if(method_exists($object,'fromArray'))
+                $object->fromArray($filterParams['filter']);
+
+            $this->addFilter($name,$object,$filterParams['condition']);
         }
+
+        if(array_key_exists('filterString',$array))
+            $this->filterString = $array['filterString'];
     }
 
     public function toArray(){
         $filters = $this->filters;
 
-        foreach($filters as $name => $filter){
-            $persisted[$name] = $filter->toArray();
+        foreach($filters as $name => $filterParams){
+            $persisted[$name] = [
+                'condition'=>$filterParams['condition'],
+                'filter'=>$filterParams['filter']->toArray()
+            ];
         }
 
         return [

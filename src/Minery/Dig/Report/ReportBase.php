@@ -11,13 +11,18 @@
 namespace Minery\Dig\Report;
 
 
+use Minery\Dig\Contracts\Arrayable;
 use Minery\Dig\Contracts\iReport;
 use Minery\Dig\Contracts\ResultSetContract;
+use Minery\Persistence\Loader\ClassLoader;
+use Minery\Sift\Contracts\iFilter;
 use Minery\Sift\Filters\FilterCollection\FilterCollection;
 
 abstract class ReportBase implements iReport,Arrayable{
 
     protected $resultSet;
+    protected $db;
+    protected $filterCollection;
 
     /**
      * Creates a Report. Takes in an empty report result set that needs to be filled in when the report has completed
@@ -28,6 +33,12 @@ abstract class ReportBase implements iReport,Arrayable{
      * @param FilterCollection $filterCollection -- the filters you want to apply
      */
     public function __construct(iResultSet $emptyResultSet,$db = '',FilterCollection $filterCollection=null){
+        $this->resultSet = $emptyResultSet;
+        $this->db = $db;
+
+        $this->filterCollection = $filterCollection;
+        if($filterCollection)
+            $this->filterCollection = new FilterCollection();
 
     }
 
@@ -56,4 +67,44 @@ abstract class ReportBase implements iReport,Arrayable{
     public function getResult(){
         return $this->resultSet->fromArray($this->run());
     }
+
+    public function addFilter($name, iFilter $filter,$condition = null){
+        $this->filterCollection->addFilter($name,$filter,$condition);
+    }
+
+    public function removeFilter($name){
+        $this->filterCollect->removeFilter($name);
+    }
+
+    public function clearFilters(){
+        $this->filterCollection->clear();
+    }
+
+    public function setDB($db)
+    {
+        $this->db = $db;
+    }
+
+    public function toArray(){
+        return [
+            'class'=>get_class($this),
+            'filterCollection'=>$this->filterCollection->toArray(),
+            'db'=>get_class($this->db) ? get_class($this->db) : '',
+            'resultSet'=>$this->resultSet->toArray()
+        ];
+    }
+
+    public function fromArray($array){
+        $loader = new ClassLoader();
+        $filters = $loader->load($array['filterCollection']);
+        $filters->fromArray($array['filterCollection']);
+        $data = $loader->load($array['resultSet']);
+        if($array['db'])
+            $db = $loader->load(['class'=>$array['db']]);
+
+        $this->db = $db;
+        $this->filterCollection = $filters;
+        $this->resultSet = $data;
+    }
+
 }

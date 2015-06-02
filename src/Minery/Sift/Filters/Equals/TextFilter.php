@@ -13,6 +13,8 @@
 namespace Minery\Sift\Filters\Equals;
 
 
+use Minery\Sift\Filters\Filter;
+
 class TextFilter extends Filter{
 
     protected $field;

@@ -25,6 +25,6 @@ class FlySystemFiles implements iFiles{
     }
 
     public function retrieve($path){
-        $this->fileSystem->get($path);
+        return $this->fileSystem->read($path);
     }
 } 

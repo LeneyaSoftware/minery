@@ -1,5 +1,12 @@
 {
     "require": {
-        "league/flysystem": "^1.0"
-    }
+        "league/flysystem": "^1.0",
+        "peridot-php/peridot": "1.15.1"
+    },
+  "autoload": {
+    "classmap": [
+      "src/Minery",
+      "tests"
+    ]
+  }
 }
