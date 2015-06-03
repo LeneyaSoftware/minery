@@ -7,8 +7,8 @@ Minery is a PHP Framework for writing reports. The goal is to have a Framework w
 
 1. Create the base framework classes. &#x2713;
 2. Create a way to persist the report and display it using JSON. &#x2713;
-3. Create Adapters to take a Report Result Set and format the data in a way that JS will understand (DataTables, Flot, etc...)
-4. Create Javascript classes that wrap DataTables, Flot, and any other javascript reporting tools that will automatically update reports using AJAX and filters.
+3. Create Adapters to take a Report Result Set and format the data for display.
+4. Create Javascript classes that wrap our Display modules we want to use.
 5. Create a Javascript class to translate JSON representations of reports into the display type chosen. 
 
 
