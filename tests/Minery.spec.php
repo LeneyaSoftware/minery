@@ -23,14 +23,15 @@ describe('Minery\Minery',function(){
     });
 
     describe('->storeToJSON()',function(){
-        it('should persist a report to a JSON representation',function(){
+        it('should persist and retrieve a report to/from JSON',function(){
             $this->suite->storeToJSON($this->report,'x1.json');
             assert(file_exists(dirname(__FILE__).'/persistenceTest/x1.json'));
+            $report = $this->suite->loadFromJSON('x1.json');
+            $report = $report->toArray();
+            assert($report['class'] == 'MockReport');
+            assert(array_key_exists('Name',$report['filterCollection']['filters']));
+            assert($report['resultSet']['data']['headers'][0] == 'name');
+            unlink(dirname(__FILE__).'/persistenceTest/x1.json');
         });
-    });
-    describe('->loadFromJSON()',function(){
-       it('should retrieve a report from a JSON representation',function(){
-
-       });
     });
 });
