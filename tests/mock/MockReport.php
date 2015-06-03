@@ -10,7 +10,7 @@ class MockReport extends \Minery\Dig\Report\ReportBase{
 
         //doing a bunch of stuff in here just to test that each save function works.
         $this->addFilter('Name',new \Minery\Sift\Filters\Equals\TextFilter('test.name','Josh Walker'));
-        $this->db = new \Minery\ReportSuite('');
+        $this->db = new \Minery\Minery('');
 
         return [
             0 => [

@@ -57,7 +57,7 @@ class ReportResult implements iResultSet{
         if(!is_array($reportResults) || empty($reportResults))
             $this->headers = $this->data = array();
 
-        $this->headers = array_keys($reportResults);
+        $this->headers = array_keys($reportResults[0]);
         $this->data = $reportResults;
     }
 

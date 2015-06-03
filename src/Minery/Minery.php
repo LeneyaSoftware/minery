@@ -14,7 +14,7 @@ use Minery\FileSystem\FlySystemFiles;
 use Minery\Persistence\Loader\JSONLoader;
 use Minery\Persistence\Storer\JSONStorer;
 
-class ReportSuite {
+class Minery {
 
     protected $fileSystem;
 

@@ -95,16 +95,19 @@ abstract class ReportBase implements iReport,Arrayable{
     }
 
     public function fromArray($array){
+
         $loader = new ClassLoader();
         $filters = $loader->load($array['filterCollection']);
         $filters->fromArray($array['filterCollection']);
-        $data = $loader->load($array['resultSet']);
+        $resultSet = $loader->load($array['resultSet']);
+        $resultSet->fromArray($array['resultSet']);
+
         if($array['db'])
             $db = $loader->load(['class'=>$array['db']]);
 
         $this->db = $db;
         $this->filterCollection = $filters;
-        $this->resultSet = $data;
+        $this->resultSet = $resultSet;
     }
 
 }

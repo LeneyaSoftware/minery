@@ -5,13 +5,13 @@
  */
 ini_set('display_errors','on');
 error_reporting(-1);
-describe('Minery\ReportSuite',function(){
+describe('Minery\Minery',function(){
 
     beforeEach(function(){
         require_once(dirname(__FILE__).'/../vendor/autoload.php');
-        $this->suite = new Minery\ReportSuite('/'.dirname(__FILE__).'/persistenceTest/');
+        $this->suite = new Minery\Minery('/'.dirname(__FILE__).'/persistenceTest/');
         $this->report = new MockReport($this->suite->getEmptyResultSet(),'',new \Minery\Sift\Filters\FilterCollection\FilterCollection());
-        $this->report->run();
+        $this->report->getResult();
     });
 
     describe('->getEmptyResultSet()',function(){
@@ -23,10 +23,14 @@ describe('Minery\ReportSuite',function(){
     });
 
     describe('->storeToJSON()',function(){
-        it('should store a report to a JSON representation',function(){
+        it('should persist a report to a JSON representation',function(){
             $this->suite->storeToJSON($this->report,'x1.json');
             assert(file_exists(dirname(__FILE__).'/persistenceTest/x1.json'));
-            $report = $this->suite->loadFromJSON('x1.json');
         });
+    });
+    describe('->loadFromJSON()',function(){
+       it('should retrieve a report from a JSON representation',function(){
+
+       });
     });
 });
