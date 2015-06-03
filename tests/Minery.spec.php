@@ -5,7 +5,7 @@
  */
 ini_set('display_errors','on');
 error_reporting(-1);
-describe('Minery\Minery',function(){
+describe('Minery',function(){
 
     beforeEach(function(){
         require_once(dirname(__FILE__).'/../vendor/autoload.php');
@@ -30,7 +30,7 @@ describe('Minery\Minery',function(){
             $report = $report->toArray();
             assert($report['class'] == 'MockReport');
             assert(array_key_exists('Name',$report['filterCollection']['filters']));
-            assert($report['resultSet']['data']['headers'][0] == 'name');
+            assert($report['resultSet']['headers'][0] == 'name');
             unlink(dirname(__FILE__).'/persistenceTest/x1.json');
         });
     });

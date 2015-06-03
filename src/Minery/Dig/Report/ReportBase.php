@@ -65,7 +65,8 @@ abstract class ReportBase implements iReport,Arrayable{
      * @return mixed
      */
     public function getResult(){
-        return $this->resultSet->fromArray($this->run());
+        $this->resultSet->convert($this->run());
+        return $this->resultSet;
     }
 
     public function addFilter($name, iFilter $filter,$condition = null){
@@ -73,7 +74,7 @@ abstract class ReportBase implements iReport,Arrayable{
     }
 
     public function removeFilter($name){
-        $this->filterCollect->removeFilter($name);
+        $this->filterCollection->removeFilter($name);
     }
 
     public function clearFilters(){
@@ -101,7 +102,6 @@ abstract class ReportBase implements iReport,Arrayable{
         $filters->fromArray($array['filterCollection']);
         $resultSet = $loader->load($array['resultSet']);
         $resultSet->fromArray($array['resultSet']);
-
         if($array['db'])
             $db = $loader->load(['class'=>$array['db']]);
 

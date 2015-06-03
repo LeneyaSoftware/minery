@@ -24,7 +24,7 @@ class ReportResult implements iResultSet{
     protected $data;
 
     public function __construct(array $reportResults = []){
-        $this->fromArray($reportResults);
+        $this->convert($reportResults);
     }
 
     /**
@@ -51,7 +51,7 @@ class ReportResult implements iResultSet{
      * @param array $reportResults
      * @return mixed
      */
-    public function fromArray(array $reportResults)
+    public function convert(array $reportResults)
     {
         //if it's not an array, then don't convert it. Just turn this into a blank result set.
         if(!is_array($reportResults) || empty($reportResults))
@@ -59,6 +59,11 @@ class ReportResult implements iResultSet{
 
         $this->headers = array_keys($reportResults[0]);
         $this->data = $reportResults;
+    }
+
+    public function fromArray(array $array){
+        $this->data = $array['data'];
+        $this->headers = $array['headers'];
     }
 
     /**
