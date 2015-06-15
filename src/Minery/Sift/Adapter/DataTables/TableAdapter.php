@@ -2,7 +2,7 @@
 /**
  * Class DataTablesAdapter
  *
- * Enter Class Description Here
+ * Renders the data set into a format
  *
  * @author Joshua Walker
  * @version 5/27/15
@@ -32,7 +32,7 @@ class TableAdapter implements iReportResultAdapter{
      */
     protected function convert()
     {
-        // TODO: Implement convert() method.
+
     }
 
     /**
