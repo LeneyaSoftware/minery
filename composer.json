@@ -3,7 +3,7 @@
     "description": "An object oriented approach to making reports. Will render all the stuff you need to display a nice report.",
     "require": {
         "league/flysystem": "^1.0",
-        "peridot-php/peridot": "1.15.1"
+        "peridot-php/peridot": "~1.0"
     },
   "autoload": {
     "classmap": [
