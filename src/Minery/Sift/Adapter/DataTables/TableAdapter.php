@@ -3,13 +3,15 @@
 namespace Minery\Sift\Adapter;
 
 use Minery\Dig\Contracts\iResultSet;
+use Minery\Dig\Contracts\ResultSetInterface;
 use Minery\Sift\Contracts\iReportResultAdapter;
+use Minery\Sift\Contracts\ReportResultAdapterInterface;
 
 /**
  * Class TableAdapter
  * @package Minery\Sift\Adapter
  */
-class TableAdapter implements iReportResultAdapter
+class TableAdapter implements ReportResultAdapterInterface
 {
 
     /**
@@ -21,7 +23,7 @@ class TableAdapter implements iReportResultAdapter
      * TableAdapter constructor.
      * @param iResultSet $result
      */
-    public function __construct(iResultSet $result)
+    public function __construct(ResultSetInterface $result)
     {
         $this->data = $result;
         $this->convert();
@@ -32,7 +34,7 @@ class TableAdapter implements iReportResultAdapter
      * Convert the ResultSet into the format needed by whatever is using this adapter.
      * @return mixed
      */
-    protected function convert()
+    public function convert()
     {
 
     }

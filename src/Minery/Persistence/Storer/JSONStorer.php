@@ -3,10 +3,8 @@
 namespace Minery\Persistence\Storer;
 
 use Minery\Dig\Contracts\ArrayableInterface;
-use Minery\FileSystem\iFiles;
+use Minery\FileSystem\FilePersistInterface;
 use Minery\Persistence\Contracts\StoreInterface;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local as Adapter;
 
 /**
  * Class JSONStorer
@@ -34,7 +32,7 @@ class JSONStorer implements StoreInterface
      * @param ArrayableInterface $report
      * @param iFiles $files
      */
-    public function __construct($filePath, ArrayableInterface $report, iFiles $files)
+    public function __construct($filePath, ArrayableInterface $report, FilePersistInterface $files)
     {
         $this->path = $filePath;
         $this->report = $report;
