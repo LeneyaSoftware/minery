@@ -1,38 +1,52 @@
 <?php
-/**
- * Class JSONStorer
- *
- * Stores a report as a JSON file.
- *
- * @author Joshua Walker
- * @version 6/1/15
- */
-
-
 
 namespace Minery\Persistence\Storer;
 
-
-use Minery\Dig\Contracts\Arrayable;
+use Minery\Dig\Contracts\ArrayableInterface;
 use Minery\FileSystem\iFiles;
-use Minery\Persistence\Contracts\iStore;
+use Minery\Persistence\Contracts\StoreInterface;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
 
-class JSONStorer implements iStore{
+/**
+ * Class JSONStorer
+ * @package Minery\Persistence\Storer
+ */
+class JSONStorer implements StoreInterface
+{
 
+    /**
+     * @var
+     */
     protected $filePath;
+    /**
+     * @var ArrayableInterface
+     */
     protected $report;
+    /**
+     * @var iFiles
+     */
     protected $files;
 
-    public function __construct($filePath,Arrayable $report,iFiles $files){
+    /**
+     * JSONStorer constructor.
+     * @param $filePath
+     * @param ArrayableInterface $report
+     * @param iFiles $files
+     */
+    public function __construct($filePath, ArrayableInterface $report, iFiles $files)
+    {
         $this->path = $filePath;
         $this->report = $report;
         $this->files = $files;
     }
 
-    public function store(){
+    /**
+     * @return mixed
+     */
+    public function store()
+    {
         $report = json_encode($this->report->toArray());
-        return $this->files->store($this->path,$report);
+        return $this->files->store($this->path, $report);
     }
 } 

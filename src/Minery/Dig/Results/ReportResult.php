@@ -1,29 +1,23 @@
 <?php
-/**
- * Class SpreadSheetResult
- *
- * Enter Class Description Here
- *
- * @author Joshua Walker
- * @version 5/27/15
- */
-
-
 
 namespace Minery\Dig\Results;
 
+use Minery\Dig\Contracts\ResultSetInterface;
 
-use Minery\Dig\Contracts\iResultSet;
-
-class ReportResult implements iResultSet{
-
+/**
+ * Class ReportResult
+ * @package Minery\Dig\Results
+ */
+class ReportResult implements ResultSetInterface
+{
     //These are the headers to display for this report... However you want to display it.
     protected $headers;
 
     //This is the data we will be manipulating
     protected $data;
 
-    public function __construct(array $reportResults = []){
+    public function __construct(array $reportResults = [])
+    {
         $this->convert($reportResults);
     }
 
@@ -54,14 +48,16 @@ class ReportResult implements iResultSet{
     public function convert(array $reportResults)
     {
         //if it's not an array, then don't convert it. Just turn this into a blank result set.
-        if(!is_array($reportResults) || empty($reportResults))
+        if (!is_array($reportResults) || empty($reportResults)) {
             $this->headers = $this->data = array();
+        }
 
         $this->headers = array_keys($reportResults[0]);
         $this->data = $reportResults;
     }
 
-    public function fromArray(array $array){
+    public function fromArray(array $array)
+    {
         $this->data = $array['data'];
         $this->headers = $array['headers'];
     }
@@ -74,8 +70,8 @@ class ReportResult implements iResultSet{
     {
         $array = [
             'class' => get_class($this),
-            'headers'=>$this->headers,
-            'data'=>$this->data
+            'headers' => $this->headers,
+            'data' => $this->data
         ];
         return $array;
     }
@@ -93,7 +89,8 @@ class ReportResult implements iResultSet{
      * Returns the data of this result set.
      * @return mixed
      */
-    public function data(){
+    public function data()
+    {
         return $this->data;
     }
 
@@ -101,7 +98,8 @@ class ReportResult implements iResultSet{
      * Returns the headers of the result set.
      * @return mixed
      */
-    public function headers(){
+    public function headers()
+    {
         return $this->headers;
     }
 

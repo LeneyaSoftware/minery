@@ -6,7 +6,8 @@ namespace Minery\Sift\Contracts;
  * Class iFilter
  * @package Minery\Sift\Contracts
  */
-interface iFilter {
+interface FilterInterface
+{
 
     /**
      * Generates the filter

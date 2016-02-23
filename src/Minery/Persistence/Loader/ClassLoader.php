@@ -1,17 +1,22 @@
 <?php
-/**
- * @author Daniel Jones
- * @version 6/1/15
- */
 
 namespace Minery\Persistence\Loader;
 
-
 use Minery\Persistence\Contracts\iLoader;
 
-class ClassLoader{
+/**
+ * Class ClassLoader
+ * @package Minery\Persistence\Loader
+ */
+class ClassLoader
+{
 
-    public function load($array){
+    /**
+     * @param $array
+     * @return object
+     */
+    public function load($array)
+    {
         $className = $array['class'];
         $reflector = new \ReflectionClass($className);
         return $reflector->newInstanceWithoutConstructor();

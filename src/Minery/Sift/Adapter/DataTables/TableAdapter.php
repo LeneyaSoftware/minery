@@ -1,26 +1,28 @@
 <?php
-/**
- * Class DataTablesAdapter
- *
- * Renders the data set into a format
- *
- * @author Joshua Walker
- * @version 5/27/15
- */
-
-
 
 namespace Minery\Sift\Adapter;
-
 
 use Minery\Dig\Contracts\iResultSet;
 use Minery\Sift\Contracts\iReportResultAdapter;
 
-class TableAdapter implements iReportResultAdapter{
+/**
+ * Class TableAdapter
+ * @package Minery\Sift\Adapter
+ */
+class TableAdapter implements iReportResultAdapter
+{
 
+    /**
+     * @var
+     */
     protected $result;
 
-    public function __construct(iResultSet $result){
+    /**
+     * TableAdapter constructor.
+     * @param iResultSet $result
+     */
+    public function __construct(iResultSet $result)
+    {
         $this->data = $result;
         $this->convert();
     }

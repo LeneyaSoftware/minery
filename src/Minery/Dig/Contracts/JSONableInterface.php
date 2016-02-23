@@ -1,17 +1,13 @@
 <?php
-/**
- * Interface iJSONABLE
- *
- * Enter Interface Description Here
- *
- * @author Joshua Walker
- * @version 6/1/15
- */
-
 
 namespace Minery\Dig\Contracts;
 
-interface JSONable{
+/**
+ * Interface JSONableInterface
+ * @package Minery\Dig\Contracts
+ */
+interface JSONableInterface
+{
 
     /**
      * Converts this to a JSON representation.

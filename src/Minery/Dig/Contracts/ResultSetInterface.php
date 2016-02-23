@@ -1,18 +1,13 @@
 <?php
-/**
- * Interface ResultSetContract
- *
- * Creates a contract that all valid result sets must implement.
- *
- * @author Joshua Walker
- * @version 5/27/15
- */
-
 
 namespace Minery\Dig\Contracts;
 
-
-interface iResultSet {
+/**
+ * Interface ResultSetInterface
+ * @package Minery\Dig\Contracts
+ */
+interface ResultSetInterface
+{
 
     /**
      * Creates a result set from an array.

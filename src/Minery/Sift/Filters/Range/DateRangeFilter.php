@@ -1,6 +1,7 @@
 <?php
 
 namespace Minery\Sift\Filters\Range;
+
 use Minery\Exception\InvalidTypeException;
 
 /**
@@ -12,11 +13,13 @@ use Minery\Exception\InvalidTypeException;
  * @author Josh Walker - josh.walker@leneya.com
  * @version 6.1.15
  */
-class DateRangeFilter extends RangeFilter{
+class DateRangeFilter extends RangeFilter
+{
 
-    public function __construct($field,$lower,$upper){
-        $this->lower = $this->toDate($lower,'lower');
-        $this->upper = $this->toDate($upper,'upper');
+    public function __construct($field, $lower, $upper)
+    {
+        $this->lower = $this->toDate($lower, 'lower');
+        $this->upper = $this->toDate($upper, 'upper');
         $this->field = $field;
     }
 
@@ -28,26 +31,28 @@ class DateRangeFilter extends RangeFilter{
      * @return \DateTime
      * @throws \Minery\Exception\InvalidTypeException
      */
-    protected function toDate($value,$boundType){
-            //try to get the DateTime object from a timestamp or regular date format.
-            try{
-                if($this->isTimestamp($value))
-                    $dateTime = new \DateTime('@'.$value);
-                else
-                    $dateTime = new \DateTime($value);
-
-                //if upper bound, add one day so that we make sure we get all of the stuff from the upper bound day.
-                //days by default will return MIDNIGHT OF THE UPPER bound, which means that the filter will only get
-                //items between lower (midnight) and upper (midnight). However, I think we want lower(midnight) to
-                //upper (fullday)
-                if($boundType == 'upper')
-                    $dateTime->add(new \DateInterval('1 day'));
-
-                return $dateTime->format('Y\m\d H:i:s');
+    protected function toDate($value, $boundType)
+    {
+        //try to get the DateTime object from a timestamp or regular date format.
+        try {
+            if ($this->isTimestamp($value)) {
+                $dateTime = new \DateTime('@' . $value);
+            } else {
+                $dateTime = new \DateTime($value);
             }
-            catch(\Exception $e){
-                throw new InvalidTypeException('Invalid Date or Timestamp passed in: '.$value);
+
+            //if upper bound, add one day so that we make sure we get all of the stuff from the upper bound day.
+            //days by default will return MIDNIGHT OF THE UPPER bound, which means that the filter will only get
+            //items between lower (midnight) and upper (midnight). However, I think we want lower(midnight) to
+            //upper (fullday)
+            if ($boundType == 'upper') {
+                $dateTime->add(new \DateInterval('1 day'));
             }
+
+            return $dateTime->format('Y\m\d H:i:s');
+        } catch (\Exception $e) {
+            throw new InvalidTypeException('Invalid Date or Timestamp passed in: ' . $value);
+        }
     }
 
     /**
@@ -55,8 +60,9 @@ class DateRangeFilter extends RangeFilter{
      * @param $value
      * @return bool
      */
-    protected function isTimestamp($value){
-        return ((string) (int) $value === $value)
+    protected function isTimestamp($value)
+    {
+        return ((string)(int)$value === $value)
         && ($value <= PHP_INT_MAX)
         && ($value >= ~PHP_INT_MAX);
     }

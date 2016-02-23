@@ -1,22 +1,17 @@
 <?php
-/**
- * Interface iReportResultAdapter
- *
- * Enter Interface Description Here
- *
- * @author Joshua Walker
- * @version 5/27/15
- */
-
 
 namespace Minery\Sift\Contracts;
 
+use Minery\Dig\Contracts\ResultSetInterface;
 
-use Minery\Dig\Contracts\iResultSet;
+/**
+ * Interface iReportResultAdapter
+ * @package Minery\Sift\Contracts
+ */
+interface ReportResultAdapterInterface
+{
 
-interface iReportResultAdapter {
-
-    public function __construct(iResultSet $results);
+    public function __construct(ResultSetInterface $results);
 
     /**
      * Convert the ResultSet into the format needed by whatever is using this adapter.

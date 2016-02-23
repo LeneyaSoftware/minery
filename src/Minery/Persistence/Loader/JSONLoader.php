@@ -1,5 +1,6 @@
 <?php
 namespace Minery\Persistence\Loader;
+
 use Minery\Exception\ReportNotFoundException;
 use Minery\Exception\ReportNotPersistableException;
 use Minery\FileSystem\iFiles;
@@ -12,32 +13,55 @@ use Minery\FileSystem\iFiles;
  *
  * @author Josh Walker - josh.walker@leneya.com - @xjoshwalker - github: joshjwalker
  */
-class JSONLoader {
+class JSONLoader
+{
 
+    /**
+     * @var
+     */
     protected $path;
+    /**
+     * @var iFiles
+     */
     protected $files;
+    /**
+     * @var
+     */
     protected $report;
 
-    public function __construct($path,iFiles $files){
+    /**
+     * JSONLoader constructor.
+     * @param $path
+     * @param iFiles $files
+     */
+    public function __construct($path, iFiles $files)
+    {
         $this->path = $path;
         $this->files = $files;
     }
 
-    public function load(){
+    /**
+     * @return object
+     */
+    public function load()
+    {
         //retrieve an array from a json file stored in the system.
         $json = $this->files->retrieve($this->path);
-        $array = json_decode($json,true);
-        try{
+        $array = json_decode($json, true);
+        try {
             $loader = new ClassLoader();
             $object = $loader->load($array);
-            if(method_exists($object,'fromArray'))
+            if (method_exists($object, 'fromArray')) {
                 $object->fromArray($array);
-            else
-                throw new ReportNotPersistableException("This report type ({$array['class']}) is not able to be persisted or loaded from a file.");
+            } else {
+                throw new ReportNotPersistableException(
+                    "This report type ({$array['class']}) is not able to be persisted or loaded from a file."
+                );
+            }
 
             return $object;
-        }catch(\Exception $e){
-            die($e->getMessage()."\r\n");
+        } catch (\Exception $e) {
+            die($e->getMessage() . "\r\n");
         }
     }
 } 

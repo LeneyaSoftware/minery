@@ -1,18 +1,13 @@
 <?php
-/**
- * Interface Arrayable
- *
- * Enter Interface Description Here
- *
- * @author Joshua Walker
- * @version 6/1/15
- */
-
 
 namespace Minery\Dig\Contracts;
 
-
-interface Arrayable {
+/**
+ * Interface ArrayableInterface
+ * @package Minery\Dig\Contracts
+ */
+interface ArrayableInterface
+{
 
     /**
      * Converts a class into an array representation

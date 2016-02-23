@@ -1,29 +1,24 @@
 <?php
-/**
- * Class FilterCollection
- *
- * Enter Class Description Here
- *
- * @author Joshua Walker
- * @version 6/1/15
- */
-
-
 
 namespace Minery\Sift\Filters\FilterCollection;
 
-
-use Minery\Dig\Contracts\Arrayable;
+use Minery\Dig\Contracts\ArrayableInterface;
 use Minery\Exception\MalformedPersistenceFileException;
 use Minery\Persistence\Loader\ClassLoader;
 use Minery\Sift\Contracts\iFilter;
 
-class FilterCollection implements Arrayable{
+/**
+ * Class FilterCollection
+ * @package Minery\Sift\Filters\FilterCollection
+ */
+class FilterCollection implements ArrayableInterface
+{
 
     protected $filters;
     protected $filterString;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->filters = [];
     }
 
@@ -37,11 +32,12 @@ class FilterCollection implements Arrayable{
      *
      * @return array
      */
-    public function addFilter($name,iFilter $filter,$condition=NULL){
+    public function addFilter($name, iFilter $filter, $condition = null)
+    {
 
         $this->filters[$name] = [
             'filter' => $filter,
-            'condition'=>$condition
+            'condition' => $condition
         ];
 
         return $this->filters;
@@ -51,27 +47,31 @@ class FilterCollection implements Arrayable{
      * Removes a filter from the filter collection by it's name
      * @param $name
      */
-    public function removeFilter($name){
+    public function removeFilter($name)
+    {
         unset($this->filters[$name]);
     }
 
-    public function clear(){
+    public function clear()
+    {
         $this->filters = [];
     }
 
     /**
      * Generates the actual string for the filters in the collection.
      */
-    public function generate(){
+    public function generate()
+    {
 
         //loop through filters and append to the filter string.
-        foreach($this->filters as $filterParams){
+        foreach ($this->filters as $filterParams) {
             $condition = $filterParams['condition'];
             $filter = $filterParams['filter'];
 
             //make sure that the condition passed into the array is valid.
-            if($this->validCondition($condition))
+            if ($this->validCondition($condition)) {
                 $this->filterString .= $condition;
+            }
 
             $this->filterString .= $filter->generate();
         }
@@ -83,7 +83,8 @@ class FilterCollection implements Arrayable{
      * Returns the current Filter string. Will be null until generate is called.
      * @return mixed
      */
-    public function getFilterString(){
+    public function getFilterString()
+    {
         return $this->filterString;
     }
 
@@ -93,7 +94,8 @@ class FilterCollection implements Arrayable{
      *
      * @param $string
      */
-    public function setFilterString($string){
+    public function setFilterString($string)
+    {
         $this->filterString = $string;
     }
 
@@ -102,44 +104,52 @@ class FilterCollection implements Arrayable{
      * @param $condition
      * @return bool
      */
-    protected function validCondition($condition){
-        $allowedConditions = ['AND','OR'];
+    protected function validCondition($condition)
+    {
+        $allowedConditions = ['AND', 'OR'];
 
-        return in_array($condition,$allowedConditions);
+        return in_array($condition, $allowedConditions);
     }
 
-    public function fromArray($array){
-        if(!array_key_exists('filters',$array))
-            throw new MalformedPersistenceFileException('This persistence file to load in this filter collection does not have a filters key');
+    public function fromArray($array)
+    {
+        if (!array_key_exists('filters', $array)) {
+            throw new MalformedPersistenceFileException(
+                'This persistence file to load in this filter collection does not have a filters key'
+            );
+        }
 
-        foreach($array['filters'] as $name => $filterParams){
+        foreach ($array['filters'] as $name => $filterParams) {
             $classLoader = new ClassLoader();
             $object = $classLoader->load($filterParams['filter']);
 
-            if(method_exists($object,'fromArray'))
+            if (method_exists($object, 'fromArray')) {
                 $object->fromArray($filterParams['filter']);
+            }
 
-            $this->addFilter($name,$object,$filterParams['condition']);
+            $this->addFilter($name, $object, $filterParams['condition']);
         }
 
-        if(array_key_exists('filterString',$array))
+        if (array_key_exists('filterString', $array)) {
             $this->filterString = $array['filterString'];
+        }
     }
 
-    public function toArray(){
+    public function toArray()
+    {
         $filters = $this->filters;
 
-        foreach($filters as $name => $filterParams){
+        foreach ($filters as $name => $filterParams) {
             $persisted[$name] = [
-                'condition'=>$filterParams['condition'],
-                'filter'=>$filterParams['filter']->toArray()
+                'condition' => $filterParams['condition'],
+                'filter' => $filterParams['filter']->toArray()
             ];
         }
 
         return [
-            'class'=>get_class($this),
-            'filters'=>$persisted,
-            'filterString'=> $this->filterString
+            'class' => get_class($this),
+            'filters' => $persisted,
+            'filterString' => $this->filterString
         ];
     }
 } 

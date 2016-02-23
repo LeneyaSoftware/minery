@@ -1,24 +1,23 @@
 <?php
-/**
- * Class BeginsWithFilter
- *
- * Enter Class Description Here
- *
- * @author Joshua Walker
- * @version 6/1/15
- */
-
-
 
 namespace Minery\Sift\Filters\Fuzzy;
 
+/**
+ * Class BeginsWithFilter
+ * @package Minery\Sift\Filters\Fuzzy
+ */
+class BeginsWithFilter extends Filter
+{
 
-class BeginsWithFilter extends Filter{
-
-
-    public function generate($negate = false){
-        if($negate)
+    /**
+     * @param bool $negate
+     * @return string
+     */
+    public function generate($negate = false)
+    {
+        if ($negate) {
             return " {$this->field} NOT LIKE '{$this->value}%' ";
+        }
 
         return " {$this->field} LIKE '{$this->value}%' ";
     }
